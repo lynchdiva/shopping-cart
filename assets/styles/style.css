@@ -109,6 +109,10 @@ body {
   cursor: pointer;
 }
 
+.discount {
+  color: rgb(49, 56, 165);
+}
+
 @media screen and (min-width: 1025px) {
   .apply-discount:hover {
     background-color: rgb(65, 66, 69);
