@@ -1,26 +1,25 @@
 const discountButton = document.querySelector('.apply-discount');
 
-discountButton.addEventListener('click', () => calcTotalPrice(20));
+discountButton.addEventListener('click', () => makeDiscount(20));
 
-calcTotalPrice();
+initPrices();
 
-function calcTotalPrice(discount) {
-  const allPrices = document.querySelectorAll('.price');
+function initPrices() {
+  const prices = document.querySelectorAll('.price');
   const totalPrice = document.querySelector('#total-price');
 
+  calcPrices(prices, totalPrice);
+}
+
+function calcPrices(prices, totalPrice, discount = 0) {
   let sum = 0;
 
-  for (let price of allPrices) {
-    let priceNum = +price.innerText;
+  for (let price of prices) {
+    let priceNum = +price.innerText.replace(/[^\d]/g, '');
 
     if (discount) {
-      priceNum = +price.innerText.replace(/[^\d]/g, '');
       priceNum = priceNum - priceNum * (discount / 100);
-
-      price.classList.add('discount');
-      totalPrice.classList.add('discount');
-
-      discountButton.setAttribute('disabled', 'true');
+      addClass(price, 'discount');
     }
 
     sum += priceNum;
@@ -31,6 +30,16 @@ function calcTotalPrice(discount) {
   totalPrice.innerText = formatWithLocale(sum);
 }
 
+function makeDiscount(discount) {
+  const prices = document.querySelectorAll('.price');
+  const totalPrice = document.querySelector('#total-price');
+
+  calcPrices(prices, totalPrice, discount);
+
+  addClass(totalPrice, 'discount');
+  discountButton.setAttribute('disabled', 'true');
+}
+
 function formatWithLocale(priceNum) {
   return priceNum.toLocaleString('ru-RU', {
     style: 'currency',
@@ -38,4 +47,8 @@ function formatWithLocale(priceNum) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   });
+}
+
+function addClass(elem, className) {
+  elem.classList.add(className);
 }
