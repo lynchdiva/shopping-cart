@@ -1,8 +1,10 @@
+initPrices();
+
 const discountButton = document.querySelector('.apply-discount');
 
-discountButton.addEventListener('click', () => makeDiscount(20));
-
-initPrices();
+discountButton.addEventListener('click', function () {
+  makeDiscount(20);
+});
 
 function initPrices() {
   const prices = document.querySelectorAll('.price');
@@ -17,7 +19,7 @@ function calcPrices(prices, totalPrice, discount = 0) {
   for (let price of prices) {
     let priceNum = +price.innerText.replace(/[^\d]/g, '');
 
-    if (discount) {
+    if (discount !== 0) {
       priceNum = priceNum - priceNum * (discount / 100);
       addClass(price, 'discount');
     }
